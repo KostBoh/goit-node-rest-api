@@ -4,7 +4,7 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
 import HttpError from "../helpers/HttpError.js";
 
-const getAllContacts = async (req, res) => {
+const getAllContacts = async (_, res) => {
   const result = await contactsService.listContacts();
   res.json(result);
 };
@@ -49,10 +49,28 @@ const updateContact = async (req, res) => {
   res.json(result);
 };
 
+const updateStatusContact = async (req, res) => {
+  const { contactId } = req.params;
+  const { favorite } = req.body;
+  if (typeof favorite !== "boolean") {
+    throw HttpError(400, "Favorite field must be a boolean");
+  }
+  try {
+    const updateContact = await contactsService.updateStatusContact(
+      contactId,
+      favorite
+    );
+    res.status(200).json(updateContact);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAllContacts: ctrlWrapper(getAllContacts),
   getOneContact: ctrlWrapper(getOneContact),
   deleteContact: ctrlWrapper(deleteContact),
   createContact: ctrlWrapper(createContact),
   updateContact: ctrlWrapper(updateContact),
+  updateStatusContact: ctrlWrapper(updateContact),
 };
