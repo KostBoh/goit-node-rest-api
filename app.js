@@ -23,12 +23,20 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-try {
-  await sequelize.authenticate();
-  console.log("Database connection successful");
-  app.listen(3000, () => {
-    console.log("Server is running. Use our API on port: 3000");
-  });
-} catch (error) {
-  console.log(error.message);
-}
+const { PORT } = process.env;
+const port = Number(PORT);
+
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Database connection successful");
+    app.listen(port, () => {
+      console.log(`Server is running. Use our API on port: ${port}`);
+    });
+  } catch (error) {
+    console.log("Database connection error:", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

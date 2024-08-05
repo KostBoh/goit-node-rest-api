@@ -1,51 +1,36 @@
-import { nanoid } from "nanoid";
-import fs from "node:fs/promises";
-import path from "node:path";
+import Contact from "../db/models/Contact.js";
+import HttpError from "../helpers/HttpError.js";
 
-const contactsPath = path.resolve("db", "contacts.json");
-const updateContacts = (contacts) =>
-  fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+export const listContacts = () => Contact.findAll();
 
-export async function listContacts() {
-  const data = await fs.readFile(contactsPath, "utf-8");
-  return JSON.parse(data);
-}
+export const getContactById = (id) => Contact.findByPk(id);
 
-export async function getContactById(contactId) {
-  const contacts = await listContacts();
-  const result = contacts.find((item) => item.id === contactId);
-  return result || null;
-}
+export const removeContact = async (id) =>
+  Contact.destroy({
+    where: {
+      id,
+    },
+  });
 
-export async function removeContact(contactId) {
-  const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === contactId);
-  if (index === -1) {
-    return null;
+export const addContact = (data) => Contact.create(data);
+
+export const updateById = async (id, data) =>
+  Contact.update(data, {
+    where: {
+      id,
+    },
+  });
+
+export const updateStatusContact = async (id, favorite) => {
+  const [update] = await Contact.update(
+    { favorite },
+    {
+      where: { id },
+    }
+  );
+  if (update) {
+    const updateContact = await Contact.findByPk(id);
+    return updateContact;
   }
-  const [result] = contacts.splice(index, 1);
-  await updateContacts(contacts);
-  return result;
-}
-
-export async function addContact(data) {
-  const contacts = await listContacts();
-  const newContact = {
-    id: nanoid(),
-    ...data,
-  };
-  contacts.push(newContact);
-  await updateContacts(contacts);
-  return newContact;
-}
-
-export async function updateById(id, data) {
-  const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === id);
-  if (index === -1) {
-    return null;
-  }
-  contacts[index] = { ...contacts[index], ...data };
-  await updateContacts(contacts);
-  return contacts[index];
-}
+  throw HttpError(404);
+};
