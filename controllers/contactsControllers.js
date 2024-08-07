@@ -1,7 +1,5 @@
 import * as contactsService from "../services/contactsServices.js";
-
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
-
 import HttpError from "../helpers/HttpError.js";
 
 const getAllContacts = async (_, res) => {
@@ -49,7 +47,7 @@ const updateContact = async (req, res) => {
   res.json(result);
 };
 
-const updateStatusContact = async (req, res) => {
+const updateStatusContact = async (req, res, next) => {
   const { contactId } = req.params;
   const { favorite } = req.body;
   if (typeof favorite !== "boolean") {
@@ -72,5 +70,5 @@ export default {
   deleteContact: ctrlWrapper(deleteContact),
   createContact: ctrlWrapper(createContact),
   updateContact: ctrlWrapper(updateContact),
-  updateStatusContact: ctrlWrapper(updateContact),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
 };
