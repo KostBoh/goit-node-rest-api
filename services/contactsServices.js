@@ -5,17 +5,26 @@ export const listContacts = () => Contact.findAll();
 
 export const getContactById = (id) => Contact.findByPk(id);
 
-export const removeContact = async (id) =>
-  Contact.destroy({
+export const addContact = (data) => Contact.create(data);
+
+export const updateById = async (id, data) => {
+  const [update] = await Contact.update(data, {
     where: {
       id,
     },
+    returning: true,
   });
 
-export const addContact = (data) => Contact.create(data);
+  if (update) {
+    const updateContact = await Contact.findByPk(id);
+    return updateContact;
+  }
 
-export const updateById = async (id, data) =>
-  Contact.update(data, {
+  throw HttpError(404, "Not found");
+};
+
+export const removeContact = async (id) =>
+  Contact.destroy({
     where: {
       id,
     },
