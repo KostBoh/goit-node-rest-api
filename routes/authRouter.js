@@ -10,6 +10,8 @@ const signupMiddleware = validateBody(authSignupSchema);
 
 const authRouter = Router();
 
-authRouter.post("/signup", signupMiddleware, authControllers.signup);
+authRouter.post("/signup", authControllers.signup);
 
 export default authRouter;
+
+// signupMiddleware
