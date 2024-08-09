@@ -6,6 +6,9 @@ const ctrlWrapper = (ctrl) => {
     try {
       await ctrl(req, res, next);
     } catch (error) {
+      if (error?.parent?.code === "23505") {
+        return next(HttpError(409, error.message));
+      }
       if (error instanceof ValidationError) {
         return next(HttpError(400, error.message));
       }
