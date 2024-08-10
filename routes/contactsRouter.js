@@ -9,11 +9,15 @@ import {
   updateFavoriteSchema,
 } from "../schemas/contactsSchemas.js";
 
+import authenticate from "../middlewares/authenticate.js";
+
 const createContactMiddleware = validateBody(createContactSchema);
 const updateContactMiddleware = validateBody(updateContactSchema);
 const updateFavoriteMiddleware = validateBody(updateFavoriteSchema);
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get("/", contactsControllers.getAllContacts);
 contactsRouter.get("/:id", contactsControllers.getOneContact);

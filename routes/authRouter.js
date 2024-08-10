@@ -2,6 +2,8 @@ import { Router } from "express";
 
 import authControllers from "../controllers/authControllers.js";
 
+import authenticate from "../middlewares/authenticate.js";
+
 import validateBody from "../helpers/validateBody.js";
 
 import { authSignupSchema } from "../schemas/authSchemas.js";
@@ -13,6 +15,10 @@ const authRouter = Router();
 authRouter.post("/signup", authControllers.signup);
 
 authRouter.post("/signin", signupMiddleware, authControllers.signin);
+
+authRouter.get("/current", authenticate, authControllers.getCurrent);
+
+authRouter.post("/logout", authenticate, authControllers.logout);
 
 export default authRouter;
 

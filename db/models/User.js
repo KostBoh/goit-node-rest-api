@@ -9,7 +9,12 @@ const User = sequelize.define("user", {
     allowNull: false,
     unique: true,
     validate: {
-      is: emailRegexp,
+      // is: emailRegexp,
+      isEmail(value) {
+        if (!emailRegexp.test(value)) {
+          throw new Error("Email not validate");
+        }
+      },
     },
   },
   password: {
@@ -27,6 +32,7 @@ const User = sequelize.define("user", {
   },
 });
 
+// User.sync({ force: true });
 // User.sync();
 
 export default User;
