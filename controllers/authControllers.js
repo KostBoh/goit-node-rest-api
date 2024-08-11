@@ -9,14 +9,22 @@ import { listContacts } from "../services/contactsServices.js";
 
 const { JWT_SECRET } = process.env;
 
-const signup = async (req, res) => {
-  const newUser = await authServices.signup(req.body);
+const register = async (req, res) => {
+  const newUser = await authServices.register(req.body);
   res.status(201).json({
     email: newUser.email,
+    subscription: newUser.subscription,
   });
 };
 
-const signin = async (req, res) => {
+// const signup = async (req, res) => {
+//   const newUser = await authServices.signup(req.body);
+//   res.status(201).json({
+//     email: newUser.email,
+//   });
+// };
+
+const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await authServices.findUser({ email });
   if (!user) {
@@ -64,8 +72,8 @@ const logout = async (req, res) => {
 };
 
 export default {
-  signup: ctrlWrapper(signup),
-  signin: ctrlWrapper(signin),
+  register: ctrlWrapper(register),
+  login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout,
 };

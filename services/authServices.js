@@ -15,18 +15,9 @@ export const updateUser = async (query, data) => {
   return user.update(data, {
     returning: true,
   });
-  // const [update] = await Contact.update(data, {
-  //   where: query,
-  //   returning: true,
-  // });
-  // if (update) {
-  //   const updateContact = await Contact.findOne({ where: query });
-  //   return updateContact;
-  // }
-  // throw HttpError(404, "Not found");
 };
 
-export const signup = async (data) => {
+export const register = async (data) => {
   try {
     const { password } = data;
     const hashPassword = await bcrypt.hash(password, 10);
@@ -35,7 +26,7 @@ export const signup = async (data) => {
     return newUser;
   } catch (error) {
     if (error?.parent?.code === "23505") {
-      error.message = "Email already exist";
+      error.message = "Email in use";
     }
 
     throw error;

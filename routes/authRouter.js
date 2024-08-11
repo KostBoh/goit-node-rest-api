@@ -6,15 +6,19 @@ import authenticate from "../middlewares/authenticate.js";
 
 import validateBody from "../helpers/validateBody.js";
 
-import { authSignupSchema } from "../schemas/authSchemas.js";
+import { authRegisterSchema } from "../schemas/authSchemas.js";
 
-const signupMiddleware = validateBody(authSignupSchema);
+const registerMiddleware = validateBody(authRegisterSchema);
 
 const authRouter = Router();
 
-authRouter.post("/signup", authControllers.signup);
+authRouter.post("/register", authControllers.register);
 
-authRouter.post("/signin", signupMiddleware, authControllers.signin);
+// authRouter.post("/signup", authControllers.signup);
+
+authRouter.post("/login", registerMiddleware, authControllers.login);
+
+// authRouter.post("/signin", registerMiddleware, authControllers.signin);
 
 authRouter.get("/current", authenticate, authControllers.getCurrent);
 
