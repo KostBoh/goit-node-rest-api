@@ -31,8 +31,6 @@ const login = async (req, res) => {
 
   const { id, subscription } = user;
 
-  const contacts = await listContacts({ owner: id });
-
   const payload = {
     id,
   };
