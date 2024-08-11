@@ -17,13 +17,6 @@ const register = async (req, res) => {
   });
 };
 
-// const signup = async (req, res) => {
-//   const newUser = await authServices.signup(req.body);
-//   res.status(201).json({
-//     email: newUser.email,
-//   });
-// };
-
 const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await authServices.findUser({ email });
@@ -54,11 +47,11 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, id } = req.user;
+  const { email, subscription, id } = req.user;
   const contacts = await listContacts({ owner: id });
   res.json({
     email,
-    contacts,
+    subscription,
   });
 };
 
@@ -66,14 +59,12 @@ const logout = async (req, res) => {
   const { id } = req.user;
   await authServices.updateUser({ id }, { token: null });
 
-  res.json({
-    message: "Logout success",
-  });
+  res.status(204).end();
 };
 
 export default {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
-  logout,
+  logout: ctrlWrapper(logout),
 };
