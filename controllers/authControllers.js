@@ -21,15 +21,15 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await authServices.findUser({ email });
   if (!user) {
-    throw HttpError(401, "Email or password invalid");
+    throw HttpError(401, "Email or password is wrong");
   }
 
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
-    throw HttpError(401, "Email or password invalid");
+    throw HttpError(401, "Email or password is wrong");
   }
 
-  const { id } = user;
+  const { id, subscription } = user;
 
   const contacts = await listContacts({ owner: id });
 
@@ -42,7 +42,8 @@ const login = async (req, res) => {
 
   res.json({
     token,
-    contacts,
+    email,
+    subscription,
   });
 };
 

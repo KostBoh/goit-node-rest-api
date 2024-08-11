@@ -19,17 +19,6 @@ const getOneContact = async (req, res) => {
   res.json(result);
 };
 
-// const deleteContact = async (req, res) => {
-//   const { id } = req.params;
-//   const result = await contactsService.removeContact(id);
-//   if (!result) {
-//     throw HttpError(404, `Not found`);
-//   }
-//   res.json({
-//     message: "Contact delete successfully",
-//   });
-// };
-
 const deleteContact = async (req, res) => {
   const { id } = req.params;
   const { id: owner } = req.user;
@@ -47,23 +36,6 @@ const createContact = async (req, res) => {
   const result = await contactsService.addContact({ ...req.body, owner });
   res.status(201).json(result);
 };
-
-// const updateContact = async (req, res) => {
-//   const { id } = req.params;
-//   const body = req.body;
-
-//   const { id: owner } = req.user;
-
-//   if (Object.keys(body).length === 0) {
-//     throw HttpError(400, "Body must have at least one field");
-//   }
-
-//   const result = await contactsService.updateById(id, body);
-//   if (!result) {
-//     throw HttpError(404, `Not found`);
-//   }
-//   res.json(result);
-// };
 
 const updateContact = async (req, res) => {
   const { id } = req.params;

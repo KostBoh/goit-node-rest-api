@@ -28,14 +28,14 @@ const authenticate = async (req, res, next) => {
     }
 
     if (!user.token || user.token !== token) {
-      return next(HttpError(401, "Invalid token"));
+      return next(HttpError(401, "Not authorized"));
     }
 
     req.user = user;
 
     next();
   } catch (error) {
-    next(HttpError(401, error.message));
+    next(HttpError(401, "Not authorized"));
   }
 };
 
