@@ -12,30 +12,12 @@ export const listContacts = (query = {}, options = {}) => {
   });
 };
 
-// export const getContactById = (id) => Contact.findByPk(id);
-
 export const getContact = (query) =>
   Contact.findOne({
     where: query,
   });
 
 export const addContact = (data) => Contact.create(data);
-
-// export const updateById = async (id, data) => {
-//   const [update] = await Contact.update(data, {
-//     where: {
-//       id,
-//     },
-//     returning: true,
-//   });
-
-//   if (update) {
-//     const updateContact = await Contact.findByPk(id);
-//     return updateContact;
-//   }
-
-//   throw HttpError(404, "Not found");
-// };
 
 export const updateContact = async (query, data) => {
   const [update] = await Contact.update(data, {
