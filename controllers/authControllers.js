@@ -1,3 +1,5 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -8,12 +10,14 @@ import HttpError from "../helpers/HttpError.js";
 import { listContacts } from "../services/contactsServices.js";
 
 const { JWT_SECRET } = process.env;
+const avatarsPath = path.resolve("public", "avatars");
 
 const register = async (req, res) => {
   const newUser = await authServices.register(req.body);
   res.status(201).json({
     email: newUser.email,
     subscription: newUser.subscription,
+    avatarURL: newUser.avatarURL,
   });
 };
 
@@ -61,9 +65,26 @@ const logout = async (req, res) => {
   res.status(204).end();
 };
 
+const updateAvatar = async (req, res) => {
+  const { id } = req.user;
+  const { path: tempPath, filename } = req.file;
+  const newPath = path.join(avatarsPath, filename);
+
+  await fs.rename(tempPath, newPath);
+
+  const avatarURL = path.join("/avatars", filename);
+
+  await authServices.updateUser({ id }, { avatarURL });
+
+  res.json({
+    avatarURL,
+  });
+};
+
 export default {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
+  updateAvatar: ctrlWrapper(updateAvatar),
 };
