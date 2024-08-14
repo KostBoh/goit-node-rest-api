@@ -25,6 +25,7 @@ const User = sequelize.define("user", {
     values: ["starter", "pro", "business"],
     defaultValue: "starter",
   },
+
   token: {
     type: DataTypes.STRING,
     defaultValue: null,

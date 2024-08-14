@@ -18,6 +18,9 @@ const Contact = sequelize.define("contact", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  poster: {
+    type: DataTypes.STRING,
+  },
   owner: {
     type: DataTypes.INTEGER,
     allowNull: false,
