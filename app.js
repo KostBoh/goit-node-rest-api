@@ -29,11 +29,13 @@ app.use((err, req, res, next) => {
 const { PORT = 3000 } = process.env;
 const port = Number(PORT);
 
+let server = null;
+
 const startServer = async () => {
   try {
     await sequelize.authenticate();
     console.log("Database connection successful");
-    app.listen(port, () => {
+    server = app.listen(port, () => {
       console.log(`Server is running. Use our API on port: ${port}`);
     });
   } catch (error) {
@@ -43,3 +45,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+export default server;
