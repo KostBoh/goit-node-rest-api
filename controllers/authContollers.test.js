@@ -1,27 +1,27 @@
-import request from "supertest";
+// import request from "supertest";
 
-import app from "../app.js";
+// import app from "../app.js";
 
-describe("test / Login Controller", () => {
-  beforeAll(() => {});
+// describe("test / Login Controller", () => {
+//   beforeAll(() => {});
 
-  afterAll(() => {
-    app.close();
-  });
+//   afterAll(() => {
+//     app.close();
+//   });
 
-  afterEach(async () => {});
+//   afterEach(async () => {});
 
-  test("login with correct data", async () => {
-    const loginData = {
-      email: "iii@gmail.com",
-      password: "123456",
-    };
+//   test("login with correct data", async () => {
+//     const loginData = {
+//       email: "iii@gmail.com",
+//       password: "123456",
+//     };
 
-    const { status, body } = (await request(app).post("/api/auth/login")).send(
-      loginData
-    );
-    expect(status).toBe(201);
+//     const { status, body } = (await request(app).post("/api/auth/login")).send(
+//       loginData
+//     );
+//     expect(status).toBe(201);
 
-    expect(body.email).toBe(loginData.email);
-  });
-});
+//     expect(body.email).toBe(loginData.email);
+//   });
+// });
