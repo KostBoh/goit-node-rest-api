@@ -41,16 +41,19 @@ const verify = async (req, res) => {
 
 const resendVerify = async (req, res) => {
   const { email } = req.body;
+  if (!email) {
+    throw HttpError(400, "missing required field email");
+  }
   const user = await authServices.findUser({ email });
   if (!user) {
     throw HttpError(404, "Email not found");
   }
   if (user.verify) {
-    throw HttpError(400, "Email already verified");
+    throw HttpError(400, "Verification has already been passed");
   }
   await authServices.sendVerifyEmail(user.email, user.verificationToken);
-  res.json({
-    message: "Verify email resend successfully",
+  res.status(200).json({
+    message: "Verification email sent",
   });
 };
 
