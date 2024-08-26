@@ -7,35 +7,6 @@ import sequelize from "./db/sequelize.js";
 import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 
-// import nodemailer from "nodemailer";
-// // import "dotenv/config";
-
-// const { UKR_NET_PASSWORD, UKR_NET_FROM } = process.env;
-
-// const nodemailerConfig = {
-//   host: "smtp.ukr.net",
-//   port: 465,
-//   secure: true,
-//   auth: {
-//     user: UKR_NET_FROM,
-//     pass: UKR_NET_PASSWORD,
-//   },
-// };
-
-// const transport = nodemailer.createTransport(nodemailerConfig);
-
-// const email = {
-//   from: UKR_NET_FROM,
-//   to: "tekexit359@avashost.com",
-//   subject: "Test email subject",
-//   html: "<strong>Test email text</strong>",
-// };
-
-// transport
-//   .sendMail(email)
-//   .then(() => console.log("Email send success"))
-//   .catch((error) => console.log(error.message));
-
 const app = express();
 
 app.use(morgan("tiny"));
